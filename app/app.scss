@@ -1,0 +1,8 @@
+@import '_variables';
+@import '../node_modules/bootstrap/scss/bootstrap';
+
+body {
+  /* Show it's not fixed to the top */
+  min-height: 75rem;
+  padding-top: 6rem;
+}
