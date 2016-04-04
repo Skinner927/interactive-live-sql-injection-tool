@@ -2,16 +2,24 @@
 
   <div class="alert alert-danger" ng-if="page.error">{{page.error}}</div>
 
-  <div class="jumbotron">
-    {{page.challenge.result.query}}
+  <div class="card card-block">
+    <div class="card-text">
+      <div class="alert alert-danger" ng-if="page.challenge.result.error">SQL Error: {{page.challenge.result.error}}</div>
+      {{page.challenge.result.query}}
+    </div>
   </div>
 
-  <div class="jumbotron">
-    <div challenge-form="page.challenge.form"
-         ng-model="page.formValues" ng-model-options="{debounce: 500}"></div>
+  <div class="card card-block">
+    <div class="card-text">
+      <div challenge-form="page.challenge.form"
+           ng-model="page.formValues" ng-model-options="{debounce: 500}"></div>
+    </div>
   </div>
 
-  <div class="jumbotron">
-    {{page.challenge.result.rows | json}}
+  <div class="card card-block">
+    <div class="card-text">
+      {{page.challenge.result.rows | json}}
+    </div>
   </div>
+
 </div>

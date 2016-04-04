@@ -67,23 +67,32 @@
      */
     Challenge.prototype.executeQuery = function executeQuery(args){
       var query = this.getParsedQuery(args);
-      var stmt = this._db.prepare(query);
+
 
       // Fill the results
       var results = [];
-      while(stmt.step()){
-        results.push(stmt.getAsObject());
+      var error, stmt;
+      try {
+        stmt = this._db.prepare(query);
+        while(stmt.step()){
+          results.push(stmt.getAsObject());
+        }
+      } catch(e){
+        error = e.message || e;
       }
+
       // Lessen memory leaks :D
-      stmt.free();
+      if(stmt){
+        stmt.free();
+      }
 
       this.result = new ChallengeResult(
         query,
-        results
+        results,
+        error
       );
 
       return this.result;
-
     };
 
     /**
@@ -111,11 +120,13 @@
      * Contians the results of a query execution
      * @param query String the compiled string run against the db
      * @param rows Array Array of objects which are the rows returned from the query
+     * @param error String Any error message that should be pushed up
      * @constructor
      */
-    function ChallengeResult(query, rows){
+    function ChallengeResult(query, rows, error){
       this.query = query;
       this.rows = rows || [];
+      this.error = error;
     }
   }
 })();
