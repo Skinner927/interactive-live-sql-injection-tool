@@ -35,7 +35,7 @@
 
           return new ChallengeModel(form, query, schema);
         }, function(){
-          return $q.reject('Could not retrieve challenge');
+          return $q.reject('Could not retrieve challenge. Challenge may not exist.');
         });
     }
   }
@@ -50,16 +50,20 @@
       var db = new SQL.Database();
       db.run(schema);
 
-      this._form = form;
+      this.form = form;
       this._query = query;
       this._schema = schema;
       this._db = db;
+
+      // This is a way to access the result after it's happened
+      this.result = new ChallengeResult();
+      this.executeQuery();
     }
 
     /**
      * Executes the stored query with the given arguments
      * @param args Object that should have keys that map to the query variables
-     * @returns {{query: String the compiled string run against the db, results: Array Array of objects which are the rows returned}}
+     * @returns ChallengeResult
      */
     Challenge.prototype.executeQuery = function executeQuery(args){
       var query = this.getParsedQuery(args);
@@ -73,10 +77,12 @@
       // Lessen memory leaks :D
       stmt.free();
 
-      return {
-        query: query,
-        results: results
-      };
+      this.result = new ChallengeResult(
+        query,
+        results
+      );
+
+      return this.result;
 
     };
 
@@ -100,5 +106,16 @@
 
 
     return Challenge;
+
+    /**
+     * Contians the results of a query execution
+     * @param query String the compiled string run against the db
+     * @param rows Array Array of objects which are the rows returned from the query
+     * @constructor
+     */
+    function ChallengeResult(query, rows){
+      this.query = query;
+      this.rows = rows || [];
+    }
   }
 })();

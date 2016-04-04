@@ -1,39 +1,50 @@
 (function() {
   'use strict';
 
-  angular.module('challengePage', ['challengeSvc'])
+  angular.module('challengePage', [
+    'challengeSvc',
+    'challengeForm'
+  ])
     .directive('challengePage', function(){
       return {
         restrict: 'AE',
         scope: {},
         controller: 'challengePageCtrl',
-        controllerAs: 'challenge',
+        controllerAs: 'page',
         templateUrl: '/pages/challengePage/challengePage.html'
       };
     })
     .controller('challengePageCtrl', ChallengePageCtrl);
 
 
-  ChallengePageCtrl.$inject = ['$stateParams', 'challengeSvc'];
-  function ChallengePageCtrl($stateParams, challengeSvc){
+  ChallengePageCtrl.$inject = [
+    '$scope',
+    '$stateParams',
+    'challengeSvc'
+  ];
+  function ChallengePageCtrl($scope, $stateParams, challengeSvc){
     var vm = this;
+    vm.formValues = {};
 
+    // Resolve the challenge
     challengeSvc.getChallenge(+$stateParams.id)
       .then(function(challenge){
         vm.challenge = challenge;
-
-        // DEBUG;
-        console.log('challenge', challenge); // eslint-disable-line
-
-
-        var res = challenge.executeQuery({
-          username: 'admin',
-          password: 'f9242721e561a7d35f4e512e30129469'
-        });
-
-        console.log(res.results); // eslint-disable-line
+        vm.error = '';
       }, function(error){
-        console.error('fuck', error); // eslint-disable-line
+        vm.error = error;
       });
+
+    // Watch form values for change then re-run the challenge
+    // This should be debounced by the ng-model-options
+    $scope.$watch(function(){
+      return vm.formValues;
+    }, function(formValues){
+      if(!vm.challenge){
+        return;
+      }
+      // Run the challenge
+      vm.challenge.executeQuery(formValues);
+    }, true);
   }
 })();
