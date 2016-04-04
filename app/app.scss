@@ -6,3 +6,31 @@ body {
   min-height: 75rem;
   padding-top: 6rem;
 }
+
+
+/** This is the sql highlight styles. Change these  */
+
+#highlight {display: none;}
+
+/*styles for the pre tag*/
+#layer {
+  font-family: monospace;
+  font-size: 12px;
+  line-height: 20px;
+
+  border: 1px solid #ccc;
+  background: linear-gradient(white, white 19px, #ddd 19px, #ddd 20px);
+  background-size: 20px 20px;
+
+  padding: 20px 30px;
+
+  white-space: pre-wrap; /*to wrap words*/
+  word-wrap: break-word; /*IE 5.5+*/
+}
+
+/*colors*/
+.sc {color: brown;}
+.keyword {color: purple; font-weight: bold;}
+.string {color: darkgreen;}
+.comment {color: green; background: lightyellow;}
+.function {color: red;}

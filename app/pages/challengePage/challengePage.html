@@ -5,7 +5,7 @@
   <div class="card card-block">
     <div class="card-text">
       <div class="alert alert-danger" ng-if="page.challenge.result.error">SQL Error: {{page.challenge.result.error}}</div>
-      {{page.challenge.result.query}}
+      <div class="hljs sql" ng-bind-html="page.formattedQuery"></div>
     </div>
   </div>
 
