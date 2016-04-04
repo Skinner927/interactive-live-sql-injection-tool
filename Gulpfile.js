@@ -17,8 +17,13 @@ var paths = Object.freeze({
   index: './app/index.html',
   sass: ['./app/app.scss', 'app/components/**/*.scss'],
   cssOut: './app/css/',
-  js: ['./app/**/*.js', '!./app/js/**/*'], // ensure this negates jsOut
-  vendorJs: [require.resolve('jquery'), require.resolve('angular'), require.resolve('angular-ui-router')],
+  js: ['./app/**/*.js', '!./app/js/**/*', '!./app/challenges/**/*'], // ensure this negates jsOut
+  vendorJs: [
+    'node_modules/jquery/dist/jquery.min.js',
+    'node_modules/angular/angular.min.js',
+    'node_modules/angular-ui-router/release/angular-ui-router.min.js',
+    'node_modules/sql.js/js/sql.js'
+  ],
   jsOut: './app/js/'
 });
 
@@ -70,6 +75,12 @@ gulp.task('eslint', function() {
     .pipe(eslint({
       extends: 'eslint:recommended',
       envs: ['browser'],
+      globals: {
+        $: false,
+        jQuery: false,
+        angular: false,
+        SQL: false
+      },
       rules: {}
     }))
     .pipe(eslint.format())
