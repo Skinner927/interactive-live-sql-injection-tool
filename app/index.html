@@ -3,26 +3,69 @@
 <head>
   <meta charset="UTF-8">
   <title>Live SQLi</title>
-  <link href="css/app.css" rel="stylesheet">
-  <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
+  <link href="css/app.css" rel="stylesheet"/>
+  <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico'/>
 </head>
 <body ng-app="sqliApp">
 
-<div class="pos-f-t">
-  <div class="collapse" id="navbar-header">
-    <div class="container-fluid bg-inverse p-a-1">
-      <h3>Collapsed content</h3>
-      <p>Toggleable via the navbar brand.</p>
+<nav class="navbar navbar-dark navbar-fixed-top bg-inverse">
+  <button type="button" class="navbar-toggler hidden-sm-up" data-toggle="collapse" data-target="#navbar"
+          aria-expanded="false" aria-controls="navbar">
+    <span class="sr-only">Toggle navigation</span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+  </button>
+  <a class="navbar-brand" href="/">Live SQL Injection Tool</a>
+  <div id="navbar">
+    <!--
+    <nav class="nav navbar-nav pull-xs-left">
+      <a class="nav-item nav-link" href="#">Dashboard</a>
+      <a class="nav-item nav-link" href="#">Settings</a>
+      <a class="nav-item nav-link" href="#">Profile</a>
+      <a class="nav-item nav-link" href="#">Help</a>
+    </nav>
+    <form class="pull-xs-right">
+      <input type="text" class="form-control" placeholder="Search...">
+    </form>
+    -->
+  </div>
+</nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3 col-md-2 sidebar">
+      <ul class="nav nav-sidebar">
+        <li><span>Challenges</span></li>
+        <li><a ui-sref="challenge({id:1})">1</a></li>
+      </ul>
+
+      <ul class="nav nav-sidebar">
+        <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">Reports</a></li>
+        <li><a href="#">Analytics</a></li>
+        <li><a href="#">Export</a></li>
+      </ul>
+      <ul class="nav nav-sidebar">
+        <li><a href="">Nav item</a></li>
+        <li><a href="">Nav item again</a></li>
+        <li><a href="">One more nav</a></li>
+        <li><a href="">Another nav item</a></li>
+        <li><a href="">More navigation</a></li>
+      </ul>
+      <ul class="nav nav-sidebar">
+        <li><a href="">Nav item again</a></li>
+        <li><a href="">One more nav</a></li>
+        <li><a href="">Another nav item</a></li>
+      </ul>
+    </div>
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+      <div ui-view></div>
+
     </div>
   </div>
-  <div class="navbar navbar-light bg-faded navbar-static-top">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-header">
-      &#9776;
-    </button>
-  </div>
 </div>
-
-<div ui-view></div>
 
 
 <script src="js/vendor.js"></script>

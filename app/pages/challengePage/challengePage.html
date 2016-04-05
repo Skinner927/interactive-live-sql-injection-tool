@@ -11,6 +11,7 @@
   </div>
 
   <div class="card card-block">
+    <h3 class="card-title">Form</h3>
     <div class="card-text">
       <div challenge-form="page.challenge.form"
            ng-model="page.formValues" ng-model-options="{debounce: 500}"></div>
@@ -18,6 +19,7 @@
   </div>
 
   <div class="card card-block">
+    <h3 class="card-title">Results</h3>
     <div class="card-text">
       {{page.challenge.result.rows | json}}
     </div>
