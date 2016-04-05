@@ -22,9 +22,10 @@
   ChallengePageCtrl.$inject = [
     '$scope',
     '$stateParams',
-    'challengeSvc'
+    'challengeSvc',
+    '$rootScope'
   ];
-  function ChallengePageCtrl($scope, $stateParams, challengeSvc){
+  function ChallengePageCtrl($scope, $stateParams, challengeSvc, $rootScope){
     var vm = this;
     vm.formValues = {};
 
@@ -49,6 +50,13 @@
       vm.challenge.executeQuery(formValues);
     }, true);
 
+    $scope.$watch(function(){
+      return (vm.challenge || {}).success;
+    }, function(newVal){
+      if(angular.isDefined(newVal)){
+        $rootScope.challengeSuccess = !!newVal;
+      }
+    })
   }
 
 })();

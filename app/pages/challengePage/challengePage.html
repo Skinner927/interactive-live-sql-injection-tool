@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" ng-class="{'success-page': page.challenge.success}">
 
   <div ng-show="page.error" class="alert alert-danger" >{{page.error}}</div>
 
@@ -29,7 +29,7 @@
     <h3 class="card-title">Result</h3>
     <div class="card-text">
       <div results-table="page.challenge.result.rows"></div>
-      <div ng-hide="page.challenge.result.rows > 0"
+      <div ng-hide="page.challenge.result.rows.length > 0"
            class="alert alert-info">No rows selected</div>
     </div>
   </div>

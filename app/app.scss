@@ -77,3 +77,10 @@ body {
 .main .page-header {
   margin-top: 0;
 }
+
+/*
+ * Challenge Page
+ */
+.page-success {
+  background-color: lighten($state-success-bg, 7%);
+}

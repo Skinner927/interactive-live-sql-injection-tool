@@ -14,8 +14,8 @@
       return params;
     },
     afterQuery: function(results, success){
-      if(results.length){
-        return results[0].username === 'admin';
+      if(results.length && results[0].username === 'admin'){
+        success();
       }
     }
   };
