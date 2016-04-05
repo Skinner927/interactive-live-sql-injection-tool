@@ -1,6 +1,7 @@
 {
   "challenges": [
     "Simple SQL injection",
-    "User specific injection"
+    "User specific injection",
+    "User specific injection: Harder"
   ]
 }

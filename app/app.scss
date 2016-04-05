@@ -59,6 +59,11 @@ body {
   border-bottom: 1px solid black;
   margin-bottom: 5px;
 }
+.navbar-brand img {
+  height: 1em;
+  display: inline;
+  vertical-align: text-top;
+}
 
 
 /*
@@ -83,4 +88,11 @@ body {
  */
 .page-success {
   background-color: lighten($state-success-bg, 7%);
+}
+
+/**
+ * Code Highlight
+ */
+.language-sql {
+  background-color: $gray-dark !important;
 }

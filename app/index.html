@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Live SQLi</title>
+  <title>Live SQL Injection Trainer</title>
   <link href="css/app.css" rel="stylesheet"/>
   <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico'/>
 </head>
-<body ng-app="sqliApp">
+<body ng-app="sqliApp" ng-class="{'page-success': $root.challengeSuccess}">
 
 <nav class="navbar navbar-dark navbar-fixed-top bg-inverse">
-  <a class="navbar-brand" href="/">Live SQL Injection Tool</a>
+  <a class="navbar-brand" href="/"><img src="/database.png" alt="database-icon"> Live SQL Injection Trainer</a>
   <div id="navbar">
     <!--
     <nav class="nav navbar-nav pull-xs-left">
@@ -30,7 +30,7 @@
     <div class="col-sm-3 col-md-2 sidebar">
       <side-navigation></side-navigation>
     </div>
-    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" ng-class="{'page-success': $root.challengeSuccess}">
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
       <div ui-view></div>
 
