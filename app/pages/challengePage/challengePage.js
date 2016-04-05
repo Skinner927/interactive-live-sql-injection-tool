@@ -4,7 +4,8 @@
   angular.module('challengePage', [
     'challengeSvc',
     'challengeForm',
-    'sqlHighlight'
+    'sqlHighlight',
+    'resultsTable'
   ])
     .directive('challengePage', function(){
       return {

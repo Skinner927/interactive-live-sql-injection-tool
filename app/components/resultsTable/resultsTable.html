@@ -1,0 +1,12 @@
+<table class="table">
+  <thead class="thead-inverse">
+  <tr>
+    <th ng-repeat="(key, val) in tbl.rows[0]">{{key}}</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="row in tbl.rows">
+    <th ng-repeat="val in row">{{val}}</th>
+  </tr>
+  </tbody>
+</table>

@@ -5,7 +5,8 @@
     'ui.router',
 
     // Pages
-    'challengePage'
+    'challengePage',
+    'sideNavigation'
   ])
     .config(Config);
 

@@ -23,17 +23,52 @@
       }
       var prefix = '/challenges/' + id;
 
-      var form   = $http.get(prefix + '/form.html'),
-          query  = $http.get(prefix + '/query.txt'),
-          schema = $http.get(prefix + '/schema.sql');
+      /**
+       * Creates a $http.get request that always resolves successfully
+       *
+       * If the original request fails, `undefined` will be returned
+       * @param url
+       * @returns {*}
+       */
+      function successGet(url){
+        var defer = $q.defer();
 
-      return $q.all([form, query, schema])
+        $http.get(url)
+          .then(function(data){
+            defer.resolve(data);
+          }, function(){
+            defer.resolve(undefined);
+          });
+
+        return defer.promise;
+      }
+
+      var form   = successGet(prefix + '/form.html'),
+          query  = successGet(prefix + '/query.txt'),
+          schema = successGet(prefix + '/schema.sql'),
+          config = successGet(prefix + '/config.js');
+
+      return $q.all([form, query, schema, config])
         .then(function(data){
           form = data[0].data;
           query = data[1].data;
           schema = data[2].data;
+          var configSrc = data[3].data;
 
-          return new ChallengeModel(form, query, schema);
+          // Here is the most roundabout way I could figure how to turn
+          // js from a string to executable js.
+          config = new (function(){
+            this.Hashes = Hashes;
+            eval(configSrc);
+          });
+          config = config.config;
+
+          // Inject the challenge ID on the config if it doesn't have one (it shouldn't)
+          if(!config.id){
+            config.id = id;
+          }
+
+          return new ChallengeModel(config, form, query, schema);
         }, function(){
           return $q.reject('Could not retrieve challenge. Challenge may not exist.');
         });
@@ -44,16 +79,29 @@
   ChallengeModel.$inject = ['$interpolate'];
   function ChallengeModel($interpolate) {
 
-    function Challenge(form, query, schema) {
+    function Challenge(config, form, query, schema) {
 
       // Let's create the DB (does this melt the browser? lol)
       var db = new SQL.Database();
       db.run(schema);
 
-      this.form = form;
+      this._config = config || {};
       this._query = query;
       this._schema = schema;
       this._db = db;
+      this._success = false;
+
+      this.id = this._config.id;
+      this.form = form;
+      this.title = this._config.title;
+      this.description = this._config.description;
+      // Will go true if current query is successful. Modified by
+      // config.afterQuery
+      Object.defineProperty(this, 'success', {
+        get: function(){
+          return this._success;
+        }
+      });
 
       // This is a way to access the result after it's happened
       this.result = new ChallengeResult();
@@ -66,8 +114,25 @@
      * @returns ChallengeResult
      */
     Challenge.prototype.executeQuery = function executeQuery(args){
+      args = args || {};
+      args = angular.copy(args);
+
+      // Reset success
+      this._success = false;
+
+      if(this._config && angular.isFunction(this._config.beforeQuery)){
+        args = this._config.beforeQuery(args);
+      }
+
       var query = this.getParsedQuery(args);
 
+      /**
+       * Used to set success on afterQuery callback
+       * @type {function(this:Challenge)}
+       */
+      var successCallback = function(){
+        this._success = true;
+      }.bind(this);
 
       // Fill the results
       var results = [];
@@ -76,6 +141,10 @@
         stmt = this._db.prepare(query);
         while(stmt.step()){
           results.push(stmt.getAsObject());
+        }
+
+        if(this._config && angular.isFunction(this._config.afterQuery)){
+          this._config.afterQuery(results, successCallback);
         }
       } catch(e){
         error = e.message || e;

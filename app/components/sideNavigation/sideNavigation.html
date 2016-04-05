@@ -1,0 +1,16 @@
+<ul class="nav nav-sidebar">
+  <li><span>Challenges</span></li>
+  <li ng-repeat="c in nav.challenges"
+      ui-sref-active="active">
+    <a ui-sref="challenge({id:c})">{{::c}}</a>
+  </li>
+</ul>
+
+<!--
+<ul class="nav nav-sidebar">
+  <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
+  <li><a href="#">Reports</a></li>
+  <li><a href="#">Analytics</a></li>
+  <li><a href="#">Export</a></li>
+</ul>
+-->

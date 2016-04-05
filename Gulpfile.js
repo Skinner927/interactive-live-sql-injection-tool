@@ -23,6 +23,7 @@ var paths = Object.freeze({
     'node_modules/angular/angular.min.js',
     'node_modules/angular-ui-router/release/angular-ui-router.min.js',
     'node_modules/sql.js/js/sql.js',
+    'node_modules/jshashes/hashes.min.js',
     'vendor_custom/prism/prism.js'
   ],
   jsOut: './app/js/'
@@ -80,7 +81,8 @@ gulp.task('eslint', function() {
         $: false,
         jQuery: false,
         angular: false,
-        SQL: false
+        SQL: false,
+        Hashes: false
       },
       rules: {}
     }))

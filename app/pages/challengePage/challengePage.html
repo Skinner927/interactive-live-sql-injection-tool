@@ -1,6 +1,13 @@
 <div class="container">
 
-  <div class="alert alert-danger" ng-if="page.error">{{page.error}}</div>
+  <div ng-show="page.error" class="alert alert-danger" >{{page.error}}</div>
+
+  <div ng-show="page.challenge.success" class="alert alert-success">Successfully Solved!</div>
+
+  <div class="card card-block">
+    <h3 class="card-title">{{::page.challenge.id}}. {{::page.challenge.title}}</h3>
+    <div class="card-text">{{::page.challenge.description}}</div>
+  </div>
 
   <div class="card card-block">
     <h3 class="card-title">SQL</h3>
@@ -19,9 +26,11 @@
   </div>
 
   <div class="card card-block">
-    <h3 class="card-title">Results</h3>
+    <h3 class="card-title">Result</h3>
     <div class="card-text">
-      {{page.challenge.result.rows | json}}
+      <div results-table="page.challenge.result.rows"></div>
+      <div ng-hide="page.challenge.result.rows > 0"
+           class="alert alert-info">No rows selected</div>
     </div>
   </div>
 
