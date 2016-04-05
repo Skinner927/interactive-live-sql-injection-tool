@@ -3,9 +3,10 @@
   <div class="alert alert-danger" ng-if="page.error">{{page.error}}</div>
 
   <div class="card card-block">
+    <h3 class="card-title">SQL</h3>
     <div class="card-text">
       <div class="alert alert-danger" ng-if="page.challenge.result.error">SQL Error: {{page.challenge.result.error}}</div>
-      <div class="hljs sql" ng-bind-html="page.formattedQuery"></div>
+      <pre sql-highlight="page.challenge.result.query"></pre>
     </div>
   </div>
 

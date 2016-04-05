@@ -22,7 +22,8 @@ var paths = Object.freeze({
     'node_modules/jquery/dist/jquery.min.js',
     'node_modules/angular/angular.min.js',
     'node_modules/angular-ui-router/release/angular-ui-router.min.js',
-    'node_modules/sql.js/js/sql.js'
+    'node_modules/sql.js/js/sql.js',
+    'vendor_custom/prism/prism.js'
   ],
   jsOut: './app/js/'
 });
