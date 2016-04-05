@@ -1,3 +1,6 @@
 {
-  "challenges": [1,2]
+  "challenges": [
+    "Simple SQL injection",
+    "User specific injection"
+  ]
 }

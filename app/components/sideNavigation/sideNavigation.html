@@ -2,7 +2,7 @@
   <li><span>Challenges</span></li>
   <li ng-repeat="c in nav.challenges"
       ui-sref-active="active">
-    <a ui-sref="challenge({id:c})">{{::c}}</a>
+    <a ui-sref="challenge({id:$index+1})">{{::$index+1}} - {{::c}}</a>
   </li>
 </ul>
 
