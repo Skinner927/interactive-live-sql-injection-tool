@@ -18,6 +18,15 @@ body {
 .navbar-fixed-top {
   border: 0;
 }
+.navbar-brand img {
+  height: 1em;
+  display: inline;
+  vertical-align: text-top;
+}
+.navbar-github img {
+  height: 32px;
+  vertical-align: text-top;
+}
 
 /*
  * Sidebar
@@ -59,11 +68,7 @@ body {
   border-bottom: 1px solid black;
   margin-bottom: 5px;
 }
-.navbar-brand img {
-  height: 1em;
-  display: inline;
-  vertical-align: text-top;
-}
+
 
 
 /*
