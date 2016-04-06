@@ -53,6 +53,9 @@
           var name = elem.attr('name') || elem.attr('id');
           if(name){
             elem.attr('ng-model', 'formData.' + name);
+
+            // Assign any specified default value
+            scope.formData[name] = elem.attr('value');
           }
         });
 

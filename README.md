@@ -4,7 +4,7 @@
 This should be an HTML document with at least 1 form. The form should also have 
 a submit button. We will take the form, then bind our own submit handler. The 
 form should have inputs with `name`s that will directly map to params in the 
-query.
+query. A `value` attribute can be set as the default value.
 
 ### query.html
 This is a short text file that should be the literal query to run against the 

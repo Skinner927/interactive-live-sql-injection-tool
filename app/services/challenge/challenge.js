@@ -80,6 +80,7 @@
   function ChallengeModel($interpolate) {
 
     function Challenge(config, form, query, schema) {
+      var challenge = this;
 
       // Let's create the DB (does this melt the browser? lol)
       var db = new SQL.Database();
@@ -106,6 +107,27 @@
       // This is a way to access the result after it's happened
       this.result = new ChallengeResult();
       this.executeQuery();
+
+      // Load any preview tables
+      this.previewTables = {};
+      if(angular.isObject(challenge._config.previewQueries)){
+        Object.keys(challenge._config.previewQueries).forEach(function(name){
+          var query = challenge._config.previewQueries[name];
+          if(angular.isString(query)){
+            //init
+            challenge.previewTables[name] = [];
+            try {
+              var stmt = challenge._db.prepare(query);
+              while(stmt.step()){
+                challenge.previewTables[name].push(stmt.getAsObject());
+              }
+            } catch(e){
+              // we failed
+              delete challenge.previewTables[name];
+            }
+          }
+        });
+      }
     }
 
     /**

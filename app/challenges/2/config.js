@@ -5,7 +5,9 @@
 
   exports.config = {
     title: 'User specific injection',
-    description: 'Bypass the login form by logging in as the user "admin".',
+    description: 'Bypass the login form by logging in as the user "admin". The ' +
+    'password will be MD5 hashed before entering, so this field will become ' +
+    'useless',
     beforeQuery: function(params){
       if(params.password){
         params.password = MD5.hex(params.password);

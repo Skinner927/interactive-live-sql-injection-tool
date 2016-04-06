@@ -9,6 +9,13 @@
     <div class="card-text">{{::page.challenge.description}}</div>
   </div>
 
+  <div class="card card-block" ng-repeat="(table, rows) in page.challenge.previewTables">
+    <h3 class="card-title">Peek inside: <code>{{table}}</code> table</h3>
+    <div class="card-text">
+      <div results-table="rows"></div>
+    </div>
+  </div>
+
   <div class="card card-block">
     <h3 class="card-title">SQL</h3>
     <div class="card-text">
