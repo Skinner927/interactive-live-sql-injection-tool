@@ -8,7 +8,8 @@
         restrict: 'AE',
         require: 'ngModel',
         scope: {
-          challengeForm: '='
+          challengeForm: '=',
+          rows: '=challengeRows'
         },
         controller: 'challengeFormCtrl',
         controllerAs: 'cForm',
@@ -42,13 +43,8 @@
 
         var wholeForm = $(scope.challengeForm);
 
-        // Find the form
-        var formEl = wholeForm.is('form') ? wholeForm : wholeForm.find('form');
-        formEl.attr('name', 'form');
-        formEl.attr('ng-submit', 'formSubmit');
-
         // Bind up inputs to ng-models
-        formEl.find('input, textarea, select').each(function(){
+        wholeForm.find('input, textarea, select').each(function(){
           var elem = $(this);
           var name = elem.attr('name') || elem.attr('id');
           if(name){

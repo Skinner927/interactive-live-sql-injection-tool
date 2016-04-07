@@ -25,6 +25,8 @@ Who has no affiliation with this project.
       <div class="button"><i class="fa fa-bars"></i></div>
     </div>
     <div class="page">
+      <p>Written by: {{rows[0].author}}</p>
+      <p>{{rows[0].body}}</p>
       <div class="lines">
         <div class="line"></div>
         <div class="line"></div>
@@ -232,6 +234,7 @@ Who has no affiliation with this project.
     text-align: center;
     overflow-y: auto;
     position: relative;
+    padding-top: 1em;
   }
   .browser-wrapper .page h1 {
     font-size: 3em;
@@ -257,7 +260,10 @@ Who has no affiliation with this project.
     margin: 15px 0px;
     border-radius: 3px;
   }
-
+  .browser-wrapper .page p {
+    text-align: left;
+    padding: 0 1em;
+  }
 
 
 
