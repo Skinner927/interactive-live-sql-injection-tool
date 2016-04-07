@@ -80,7 +80,7 @@ the database with `INSERT` statements. Basically, do all your SQL work here. It
 is safe to make multiple tables as well. 
 
 ### form.html
-This should be an HTML document (with <style> and <script> tags added if you'd
+This should be an HTML document (with `style` and `script` tags added if you'd
 like) that displays to the user what the proposed real-world form would look 
 like. The html should have at least 1 input element. We currently support 
 automatic hookup of `input`, `textarea`, and `select` elements as long as these 
