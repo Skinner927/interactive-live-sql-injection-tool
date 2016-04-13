@@ -1,0 +1,1 @@
+SELECT a.id, u.username as author, body FROM articles as a INNER JOIN users as u ON a.author=u.id WHERE a.id={{articleId}};

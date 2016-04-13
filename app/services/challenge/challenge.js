@@ -93,6 +93,7 @@
       this._success = false;
 
       this.id = this._config.id;
+      this.hideResult = !!this._config.hideResult;
       this.form = form;
       this.title = this._config.title;
       this.description = this._config.description;

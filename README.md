@@ -141,6 +141,8 @@ a SQL query (string) that returns the data that the user should see from the DB.
 
 You may specify multiple tables.
 
+**hideResult** `{boolean}` - If set to true, result table will be hidden.
+
 
 ## Contributing
 If you've come up with general improvements or challenges I'd greatly appreciate

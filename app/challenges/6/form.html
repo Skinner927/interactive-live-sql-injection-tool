@@ -1,0 +1,270 @@
+<!-----
+This amazing browser was done by Arthur Camara: http://codepen.io/arthurcamara1/pen/VvXxYz
+Who has no affiliation with this project.
+-->
+
+<form class="browser-wrapper">
+  <div class="browser">
+    <div class="browser-header">
+      <div class="browser-btns">
+        <div class="browser-btn close"></div>
+        <div class="browser-btn retract"></div>
+        <div class="browser-btn expand"></div>
+      </div>
+      <ul class="tabs">
+        <li class="tab active"><i class="fa fa-codepen"></i> News Website<span class="close">x</span></li>
+        <li class="tab"><i class="fa fa-github"></i> How to SQLi<span class="close">x</span></li>
+      </ul>
+    </div>
+    <div class="browser-bar">
+      <div class="button"><i class="fa fa-arrow-left"></i></div>
+      <div class="button inactive"><i class="fa fa-arrow-right"></i></div>
+      <div class="button"><i class="fa fa-rotate-right"></i></div>
+      <span class="address" style="line-height: 1em">http://newswebsite.co/articles.php?id=</span>
+      <input value="1" class="address address-id" name="articleId" />
+      <div class="button"><i class="fa fa-bars"></i></div>
+    </div>
+    <div class="page">
+      <p>Written by: {{rows[0].author}}</p>
+      <p>{{rows[0].body}}</p>
+      <div class="lines">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+      </div>
+    </div>
+  </div>
+</form>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<link href='https://fonts.googleapis.com/css?family=Abril+Fatface' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+<style>
+  .browser-wrapper {
+    box-sizing: content-box;
+  }
+  .browser-wrapper .browser {
+    background-color: #ebebeb;
+    border-radius: 4px;
+    margin: 50px auto 0 auto;
+    box-shadow: 0px 3px 30px 0px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .browser-wrapper .browser-header {
+    flex-basis: auto;
+    height: 35px;
+    background: #ebebeb;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ebebeb), color-stop(100%, #d9d9d9));
+    border-bottom: 1px solid #969696;
+    display: flex;
+  }
+  .browser-wrapper .browser-btns {
+    height: 35px;
+    display: inline-block;
+    padding: 0 10px;
+    line-height: 38px;
+    width: 55px;
+    flex-basis: auto;
+  }
+  .browser-wrapper .browser-btn {
+    width: 10px;
+    height: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+    display: inline-block;
+    margin: 1px;
+  }
+  .browser-wrapper .browser-btn.close {
+    background-color: #fd615b;
+    float: none !important;
+  }
+  .browser-wrapper .browser-btn.retract {
+    background-color: #fdbc40;
+  }
+  .browser-wrapper .browser-btn.expand {
+    background-color: #33c84a;
+  }
+  .browser-wrapper .tabs {
+    flex: 1;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    line-height: 35px;
+    max-height: 35px;
+    display: inline-block;
+    padding: 0 12px;
+  }
+  .browser-wrapper .tabs .tab {
+    color: #333333;
+    float: left;
+    margin: 10px -10px 0;
+    border-top-right-radius: 25px 170px;
+    border-top-left-radius: 20px 90px;
+    padding: 0 30px 0 25px;
+    height: 170px;
+    background: #cbcccc;
+    position: relative;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
+    width: 100px;
+    border: 1px solid #b4b4b4;
+    font-size: 11px;
+    font-family: Verdana, sans-serif;
+    line-height: 25px;
+    cursor: pointer;
+  }
+  .browser-wrapper .tabs .tab:before, .browser-wrapper .tabs .tab:after {
+    content: "";
+    background: transparent;
+    height: 20px;
+    width: 20px;
+    border-radius: 100%;
+    border-width: 10px;
+    top: 0px;
+    border-style: solid;
+    position: absolute;
+  }
+  .browser-wrapper .tabs .tab:before {
+    border-color: transparent #cbcccc transparent transparent;
+    -webkit-transform: rotate(50deg);
+    left: -23px;
+  }
+  .browser-wrapper .tabs .tab:after {
+    border-color: transparent transparent transparent #cbcccc;
+    -webkit-transform: rotate(-50deg);
+    right: -17px;
+  }
+  .browser-wrapper .tabs .tab .fa {
+    font-size: 13px;
+  }
+  .browser-wrapper .tabs .tab .fa.fa-apple {
+    color: #666666;
+  }
+  .browser-wrapper .tabs .tab .close {
+    position: absolute;
+    right: 25px;
+    top: 0px;
+    display: inline-block;
+    color: #888888;
+    margin-left: 5px;
+    font-size: 11px;
+    line-height: 25px;
+    text-shadow: 0;
+  }
+  .browser-wrapper .tabs .tab .close:after {
+    position: absolute;
+    content: "";
+    width: 139px;
+    display: block;
+    height: 1px;
+    background: #969696;
+    z-index: 3;
+    top: 24px;
+    right: -15px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.8);
+  }
+  .browser-wrapper .tabs .tab.active {
+    background: #ebeeeb;
+  }
+  .browser-wrapper .tabs .tab.active:before {
+    border-color: transparent #ebeeeb transparent transparent;
+    z-index: 2;
+  }
+  .browser-wrapper .tabs .tab.active:after {
+    border-color: transparent transparent transparent #ebeeeb;
+    z-index: 2;
+  }
+  .browser-wrapper .tabs .tab.active .close:after {
+    display: none;
+  }
+  .browser-wrapper .browser-bar {
+    flex-basis: auto;
+    height: 28px;
+    background: #ebeeeb;
+    z-index: 15;
+    padding: 6px;
+    border-bottom: 1px solid #aaaaaa;
+    display: flex;
+  }
+  .browser-wrapper .browser-bar .button {
+    flex-basis: auto;
+    text-align: center;
+    font-size: 17px;
+    color: #6d6d6e;
+    padding: 3px;
+    display: inline-block;
+    width: 20px;
+    border: 1px solid #ebeeeb;
+  }
+  .browser-wrapper .browser-bar .button:not(.inactive):hover {
+    border: 1px solid #b4bfb4;
+    cursor: pointer;
+    border-radius: 3px;
+  }
+  .browser-wrapper .browser-bar .button.inactive {
+    opacity: 0.3;
+  }
+  .browser-wrapper .browser-bar .address {
+    flex: 0;
+    white-space: nowrap;
+    background: white;
+    border-radius: 3px 0 0 3px;
+    margin: 0px;
+    border: 1px solid #cccccc;
+    border-right: 0;
+    padding: 5px 0 5px 5px;
+    font-size: 14px;
+    color: #555555;
+  }
+  .browser-wrapper .browser-bar .address.address-id {
+    flex: 1;
+    border-radius: 0 3px 3px 0;
+    margin-right: 3px;
+    padding: 5px 5px 5px 0;
+    border: 1px solid #cccccc;
+    border-left: 0;
+  }
+  .browser-wrapper .page {
+    flex: 1;
+    background: white;
+    z-index: 10;
+    text-align: center;
+    overflow-y: auto;
+    position: relative;
+    padding-top: 1em;
+  }
+  .browser-wrapper .page h1 {
+    font-size: 3em;
+    font-family: "Abril Fatface", cursive;
+    margin-bottom: 0;
+    color: rgba(255, 0, 0, 0.3);
+  }
+  .browser-wrapper .page h1 span {
+    color: rgba(255, 0, 0, 0.5);
+  }
+  .browser-wrapper .page h2 {
+    font-family: "Roboto", sans-serif;
+    padding: 0;
+    margin: 0;
+    color: rgba(71, 207, 115, 0.8);
+  }
+  .browser-wrapper .page .lines {
+    padding: 30px;
+  }
+  .browser-wrapper .page .line {
+    background-color: #ededed;
+    height: 10px;
+    margin: 15px 0px;
+    border-radius: 3px;
+  }
+  .browser-wrapper .page p {
+    text-align: left;
+    padding: 0 1em;
+  }
+
+
+
+</style>
