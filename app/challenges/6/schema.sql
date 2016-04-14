@@ -6,8 +6,8 @@ CREATE TABLE users (id integer, username text, lastlogin text, password text);
 
 INSERT INTO users VALUES (1, 'Frank', '01-01-2089', '098f6bcd4621d373cade4e832627b4f6');
 INSERT INTO users VALUES (2, 'Joe', '05-03-2089', '2ab96390c7dbe3439de74d0c9b0b1767');
-INSERT INTO users VALUES (300, 'admin', '03-09-2089', 'a4d731d37c88f9c4acc6dfbcedaf3eb6');
-INSERT INTO users VALUES (4, 'Stacy', '03-09-2089', 'a4d731d37c88f9c4acc6dfbcedaf3eb6');
+INSERT INTO users VALUES (300, 'admin', '03-09-2089', 'aa407e606284780081cbe987386cd385');
+INSERT INTO users VALUES (4, 'Stacy', '03-09-2089', '7eaa9bafb41c734fbbf3134588603114');
 
 
 DROP TABLE IF EXISTS articles;
