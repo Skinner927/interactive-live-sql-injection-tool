@@ -94,6 +94,13 @@
 
       this.id = this._config.id;
       this.hideResult = !!this._config.hideResult;
+
+      this.hideQuery = !!this._config.hideQuery;
+      this.hideErrors = !!this._config.hideErrors;
+      this.hideSQL = !!this._config.hideSQL || (this.hideQuery && this.hideErrors);
+
+      this.manualValidator = this._config.manualValidator;
+
       this.form = form;
       this.title = this._config.title;
       this.description = this._config.description;
@@ -141,7 +148,9 @@
       args = angular.copy(args);
 
       // Reset success
-      this._success = false;
+      if(!angular.isFunction(this.manualValidator)){
+        this._success = false;
+      }
 
       if(this._config && angular.isFunction(this._config.beforeQuery)){
         args = this._config.beforeQuery(args);
@@ -203,6 +212,17 @@
     Challenge.prototype.getParsedQuery = function getParsedQuery(args) {
       // We use angular's interpolate instead of SQL's to allow stupid injections
       return $interpolate(this.getRawQuery())(args);
+    };
+
+    /**
+     * Call this with a value that will determine if the passed value is what we
+     * were looking for to solve the challenge.
+     *
+     * This is used if you don't want to use the `afterQuery` `success()` option.
+     * @param val
+     */
+    Challenge.prototype.manualValidatorValidator = function manualValidatorValidator(val){
+      this._success = !!(angular.isFunction(this.manualValidator) && this.manualValidator(val));
     };
 
 

@@ -1,0 +1,1 @@
+SELECT a.id, u.name as author, a.created, a.lastUpdated, a.body, a.display FROM postings_2018 as a INNER JOIN users_7738 as u ON a.authorId=u.id WHERE a.id={{articleId}};

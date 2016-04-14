@@ -4,9 +4,9 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users (id integer, username text, lastlogin text, password text);
 
 
-INSERT INTO users VALUES (1, 'frank', '01-01-2089', '098f6bcd4621d373cade4e832627b4f6');
-INSERT INTO users VALUES (2, 'joe', '05-03-2089', '2ab96390c7dbe3439de74d0c9b0b1767');
-INSERT INTO users VALUES (3, 'admin', '03-09-2089', 'a4d731d37c88f9c4acc6dfbcedaf3eb6');
+INSERT INTO users VALUES (1, 'frank', '2089-01-01', '098f6bcd4621d373cade4e832627b4f6');
+INSERT INTO users VALUES (2, 'joe', '2089-05-03', '2ab96390c7dbe3439de74d0c9b0b1767');
+INSERT INTO users VALUES (3, 'admin', '2089-03-09', 'a4d731d37c88f9c4acc6dfbcedaf3eb6');
 
 
 DROP TABLE IF EXISTS articles;

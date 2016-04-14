@@ -5,7 +5,7 @@
 
   exports.config = {
     title: 'URL injection',
-    description: 'Retrieve the "admin" user from the "users" table in order to ' +
+    description: "Retrieve the 'admin' user's password hash from the 'users' table in order to " +
     'create a more perfect UNION.',
     afterQuery: function(results, success){
 

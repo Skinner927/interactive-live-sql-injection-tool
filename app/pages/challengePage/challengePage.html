@@ -16,11 +16,25 @@
     </div>
   </div>
 
-  <div class="card card-block">
+  <div class="card card-block" ng-hide="page.challenge.hideSQL">
     <h3 class="card-title">SQL</h3>
     <div class="card-text">
-      <div class="alert alert-danger" ng-if="page.challenge.result.error">SQL Error: {{page.challenge.result.error}}</div>
-      <pre sql-highlight="page.challenge.result.query"></pre>
+      <div ng-hide="page.challenge.hideErrors"
+           class="alert alert-danger"
+           ng-if="page.challenge.result.error">
+        SQL Error: {{page.challenge.result.error}}
+      </div>
+      <pre ng-hide="page.challenge.hideQuery"
+           sql-highlight="page.challenge.result.query"></pre>
+    </div>
+  </div>
+
+  <div class="card card-block" ng-show="page.challenge.manualValidator">
+    <h3 class="card-title">Enter the flag</h3>
+    <div class="card-text form-group">
+      <input type="text" class="form-control" placeholder="Flag goes here"
+             ng-model="page.challenge._flag"
+             ng-change="page.challenge.manualValidatorValidator(page.challenge._flag)">
     </div>
   </div>
 

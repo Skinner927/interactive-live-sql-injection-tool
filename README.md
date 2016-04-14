@@ -128,6 +128,12 @@ will notify the framework that the resulting query is what we were looking for.
 In other words, if the condition you're looking for exists (specific row, 
 number of rows, etc) call this function. 
 
+**manualValidator** `{function}` - Instead of trying to figure out if the user 
+can blindly pull a value you're looking for in the `afterQuery` function, you 
+can make them enter the flag manually. If the `manualValidator` function is 
+defined, an input box above the form will be shown. If the `manualValidator` 
+function returns true, the challenge will be marked as a success.
+
 **title** `{string}` - This is the title of the challenge. It will be displayed.
 
 **description** `{string}` - This is the description of the the challenge. It
@@ -142,6 +148,13 @@ a SQL query (string) that returns the data that the user should see from the DB.
 You may specify multiple tables.
 
 **hideResult** `{boolean}` - If set to true, result table will be hidden.
+
+**hideQuery** `{boolean}` - If set to true, the live query will be hidden.
+
+**hideErrors** `{boolean}` - If set to true, SQL errors will not be pushed up.
+
+**hideSQL** `{boolean}` - If set to true, will hide the entire SQL pane. Use 
+this option if you'd like both the results & query turned off.
 
 
 ## Contributing
