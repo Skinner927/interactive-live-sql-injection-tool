@@ -1,6 +1,7 @@
 @import '_variables';
 @import '../node_modules/bootstrap/scss/bootstrap';
 @import '../vendor_custom/prism/prism';
+@import '../vendor_custom/pace/pace';
 
 /*
  * Base structure
@@ -26,6 +27,20 @@ body {
 .navbar-github img {
   height: 32px;
   vertical-align: text-top;
+}
+
+/*
+ * Pace loading adjustment
+ */
+.pace {
+  .pace-progress {
+    top: 54px;
+    z-index: 1001;
+  }
+
+  .pace-activity {
+    top: 69px;
+  }
 }
 
 /*
