@@ -5,7 +5,7 @@ trying to learn SQL injections. This tool was created out of necessity as I was
 seeing people new to SQL injection attacks really struggling to wrap their minds 
 around escaping parameters. Thus this was born.
 
-Checkout the demo: 
+Checkout the live app: 
 [http://sqli.dennisskinner.com](http://sqli.dennisskinner.com)
 
 ## Features
@@ -70,7 +70,8 @@ string is at +1 (ie 1 being the first index) is the directory that corresponds
 to said challenge. This string you enter is what will show on the side 
 navigation.
 
-The following files should be placed inside your numbered challenge directory.
+The following required files should be placed inside your numbered challenge 
+directory:
 
 ### schema.sql
 This is a sql file that will be run when each challenge is constructed. This 
@@ -92,27 +93,33 @@ name in the `query.txt` file. As the fields are filled out, they will auto fill
 the SQL query and the query will be run against the DB. 
 
 If you're familiar with AngularJs, you can gain a litle more power from this 
-html. This html will be `$compiled` and have a `$scope`. You may access the 
-scope's `rows` variable in order to get the rows returned by the user's query. 
+html. This html will be `$compiled` and have a `$scope`. You may access  
+`$scope.rows` in order to get the rows returned by the user's query. 
 This allows you to make rich inputs that can show feedback in a way someone 
 might see a sql injection in the wild.
 
 ### query.txt
 This is a short text file that should be the literal query to run against the 
 database. Use angular variable binding notion (double curly braces eg: 
-`SELECT * FROM users WHERE username={{username}}`) for 
+`SELECT * FROM users WHERE username='{{username}}'`) for 
 variable replacement. The variable names will directly map to the input names in
 the `form.html`. This is the query that the end users will be injecting into.
 
 ### config.js
-This is is a javascript object that uses some odd attempt Node or CommonJs 
-export in order to resolve the config object. Take a look at some defined 
+This is is a javascript object that uses some odd attempt at an export system 
+in order to resolve the config object. Take a look at some defined 
 configs for example, but basically bind an object to `this.config`. 
 
 jshashes hashing library is available via the `this.Hashes` variable:
 https://github.com/h2non/jshashes
 
 The config object supports the following optional properties:
+
+**title** `{string}` - This is the title of the challenge. It will be displayed 
+at the top of the page.
+
+**description** `{string}` - This is the description of the the challenge. It
+will be displayed under the title.
 
 **beforeQuery** `{function}` - This function gets called before each query and 
 takes one param: an object with properties that map to the input names defined 
@@ -123,31 +130,25 @@ used in the actual SQL query.
 **afterQuery** `{function}` - This function gets called after the query returns 
 results. If the query errors, this will not be called. First param is an 
 array of objects that represent the rows returned (if there are no results, the 
-array will be empty). Second param is a `success()` function that when executed 
+array will be empty). Second param is a `success()` function that when called 
 will notify the framework that the resulting query is what we were looking for.
 In other words, if the condition you're looking for exists (specific row, 
-number of rows, etc) call this function. 
+number of rows, etc) call this function. Do not use both an `afterQuery` and 
+`manualValidator` for validation.
 
 **manualValidator** `{function}` - Instead of trying to figure out if the user 
 can blindly pull a value you're looking for in the `afterQuery` function, you 
 can make them enter the flag manually. If the `manualValidator` function is 
 defined, an input box above the form will be shown. If the `manualValidator` 
-function returns true, the challenge will be marked as a success.
-
-**title** `{string}` - This is the title of the challenge. It will be displayed.
-
-**description** `{string}` - This is the description of the the challenge. It
-will be displayed. 
+function returns true, the challenge will be marked as a success. Do not use 
+both an `afterQuery` and `manualValidator` for validation.
 
 **previewQueries** `{object}` - This object is used to define queries to run 
 in order to show the user what's inside specific tables. This can be useful in 
 more complicated challenges where giving the user a peek inside is polite. The 
 properties of the object should be the name of the table and the value should be
 a SQL query (string) that returns the data that the user should see from the DB.
-
 You may specify multiple tables.
-
-**hideResult** `{boolean}` - If set to true, result table will be hidden.
 
 **hideQuery** `{boolean}` - If set to true, the live query will be hidden.
 
@@ -156,6 +157,8 @@ You may specify multiple tables.
 **hideSQL** `{boolean}` - If set to true, will hide the entire SQL pane. Use 
 this option if you'd like both the results & query turned off.
 
+**hideResult** `{boolean}` - If set to true, result table will be hidden.
+
 
 ## Contributing
 If you've come up with general improvements or challenges I'd greatly appreciate
@@ -163,9 +166,10 @@ a pull request. I'd like to add more challenges to this tool and if you can help
 me that would be great. 
 
 ## Disclaimer
-This tool was written over the course of 3 days. Some code is a little slapped 
-together. I hold no responsibility for what you do with this tool or what you 
-learn from it. This is an educational tool for proof of concept work.
+This tool was initially written over the course of 3 days. Some code is a 
+little slapped together. I hold no responsibility for what you do with this 
+tool or what you learn from it. This is an educational tool for proof of 
+concept work.
 
 ## License
 I'm licensing this under the WTFPL (Do What the Fuck You Want to Public License).
