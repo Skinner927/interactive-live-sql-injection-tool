@@ -1,4 +1,186 @@
 (function() {
+  'use strict';
+
+  angular.module('sqliApp', [
+    'ui.router',
+
+    // Pages
+    'challengePage',
+    'sideNavigation'
+  ])
+    .config(Config);
+
+
+
+  Config.$inject = ['$stateProvider', '$urlRouterProvider'];
+  function Config($stateProvder, $urlRouterProvider){
+
+    $urlRouterProvider.otherwise("/challenge/1");
+
+    $stateProvder
+      .state('challenge', {
+        url: '/challenge/{id:[0-9]+}',
+        template: '<challenge-page></challenge-page>'
+      });
+  }
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('challengeForm', [])
+    .controller('challengeFormCtrl', ChallengeFormCtrl)
+    .directive('challengeForm', ['$compile', function($compile){
+      return {
+        restrict: 'AE',
+        require: 'ngModel',
+        scope: {
+          challengeForm: '=',
+          rows: '=challengeRows'
+        },
+        controller: 'challengeFormCtrl',
+        controllerAs: 'cForm',
+        link: ChallengeFormLinkWrapper($compile)
+      };
+    }]);
+
+
+  function ChallengeFormLinkWrapper($compile){
+    return function ChallengeFormLink(scope, el, attrs, ngModelCtrl){
+      // Watch form data for change then alert model listeners
+      scope.$watch('formData', function(newVal){
+        ngModelCtrl.$setViewValue(newVal);
+      }, true);
+
+      // One-time watch for challengeForm to change. We need to wait for the
+      // challenge to be resolved.
+      var formWatch = scope.$watch('challengeForm', function(newVal){
+        if(angular.isUndefined(newVal)){
+          return;
+        }
+        // Unbind the watch
+        formWatch();
+        hookupForm();
+      });
+
+      /**
+       * Binds all the magic to the resolved form html
+       */
+      function hookupForm(){
+
+        var wholeForm = $(scope.challengeForm);
+
+        // Bind up inputs to ng-models
+        wholeForm.find('input, textarea, select').each(function(){
+          var elem = $(this);
+          var name = elem.attr('name') || elem.attr('id');
+          if(name){
+            elem.attr('ng-model', 'formData.' + name);
+
+            // Assign any specified default value
+            scope.formData[name] = elem.attr('value');
+          }
+        });
+
+        // Stick it in the dom
+        $(el).html(wholeForm);
+
+        $compile(wholeForm)(scope);
+      }
+    };
+  }
+
+  ChallengeFormCtrl.$inject = ['$scope'];
+  function ChallengeFormCtrl($scope){
+
+    // Form submit should do nothing.
+    $scope.formSubmit = function(){};
+
+    // This will get bound to by the linker
+    $scope.formData = {};
+  }
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('resultsTable', [])
+    .controller('resultsTableCtrl', ResultsTableCtrl)
+    .directive('resultsTable', function(){
+      return {
+        restrict: 'A',
+        scope: {},
+        templateUrl: '/components/resultsTable/resultsTable.html',
+        controller: 'resultsTableCtrl',
+        controllerAs: 'tbl',
+        bindToController: {
+          rows: '=resultsTable'
+        }
+      };
+    });
+
+  function ResultsTableCtrl(){
+
+  }
+
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('sideNavigation', [])
+    .controller('sideNavigationCtrl', SideNavigationCtrl)
+    .directive('sideNavigation', function(){
+      return {
+        restrict: 'AE',
+        scope: {},
+        templateUrl: '/components/sideNavigation/sideNavigation.html',
+        controller: 'sideNavigationCtrl',
+        controllerAs: 'nav'
+      };
+    });
+
+  SideNavigationCtrl.$inject = ['$http'];
+  function SideNavigationCtrl($http){
+    var vm = this;
+
+    // Pull the challenge config file to see how many we have
+    $http.get('/challenges/index.json')
+      .then(function(data){
+        vm.challenges = data.data.challenges;
+      });
+  }
+
+})();
+
+(function() {
+  /*global Prism:false */
+  'use strict';
+
+  angular.module('sqlHighlight', [])
+    .directive('sqlHighlight', function(){
+      return {
+        restrict: 'A',
+        scope: {
+          sql: '=sqlHighlight'
+        },
+        compile: function(el){
+          el.addClass('language-sql');
+
+          return function postLink(scope, el){
+            scope.$watch('sql', function(sql){
+              el.html(sql);
+              Prism.highlightElement(el[0]);
+            });
+          };
+        }
+
+      }
+    });
+
+})();
+
+(function() {
 
   angular.module('challengeSvc', [])
     .service('challengeSvc', ChallengeService)
@@ -50,10 +232,27 @@
 
       return $q.all([form, query, schema, config])
         .then(function(data){
-          form = data[0].data;
-          query = data[1].data;
-          schema = data[2].data;
-          var configSrc = data[3].data;
+          form = (data[0] || {}).data;
+          query = (data[1] || {}).data;
+          schema = (data[2] || {}).data;
+          var configSrc = (data[3] || {}).data;
+
+          if(!form){
+            return genericError('Could not load form file.');
+          }
+          if(!query){
+            return genericError('Could not load query file.');
+          }
+          if(!schema){
+            return genericError('Could not load schema file.');
+          }
+          if(!configSrc){
+            return genericError('Could not load config file.');
+          }
+
+          function genericError(msg){
+            return $q.reject(msg + ' Try refreshing the page. If errors persist, create a Github issue.');
+          }
 
           // Here is the most roundabout way I could figure how to turn
           // js from a string to executable js.
@@ -241,4 +440,67 @@
       this.error = error;
     }
   }
+})();
+
+(function() {
+  'use strict';
+
+  angular.module('challengePage', [
+    'challengeSvc',
+    'challengeForm',
+    'sqlHighlight',
+    'resultsTable'
+  ])
+    .directive('challengePage', function(){
+      return {
+        restrict: 'AE',
+        scope: {},
+        controller: 'challengePageCtrl',
+        controllerAs: 'page',
+        templateUrl: '/pages/challengePage/challengePage.html'
+      };
+    })
+    .controller('challengePageCtrl', ChallengePageCtrl);
+
+
+  ChallengePageCtrl.$inject = [
+    '$scope',
+    '$stateParams',
+    'challengeSvc',
+    '$rootScope'
+  ];
+  function ChallengePageCtrl($scope, $stateParams, challengeSvc, $rootScope){
+    var vm = this;
+    vm.formValues = {};
+
+    // Resolve the challenge
+    challengeSvc.getChallenge(+$stateParams.id)
+      .then(function(challenge){
+        vm.challenge = challenge;
+        vm.error = '';
+      }, function(error){
+        vm.error = error;
+      });
+
+    // Watch form values for change then re-run the challenge
+    // This should be debounced by the ng-model-options
+    $scope.$watch(function(){
+      return vm.formValues;
+    }, function(formValues){
+      if(!vm.challenge){
+        return;
+      }
+      // Run the challenge
+      vm.challenge.executeQuery(formValues);
+    }, true);
+
+    $scope.$watch(function(){
+      return (vm.challenge || {}).success;
+    }, function(newVal){
+      if(angular.isDefined(newVal)){
+        $rootScope.challengeSuccess = !!newVal;
+      }
+    })
+  }
+
 })();
