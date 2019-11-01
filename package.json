@@ -24,7 +24,7 @@
     "angular": "^1.5.3",
     "angular-ui-router": "^0.2.18",
     "bootstrap": "^4.0.0-alpha.2",
-    "jquery": "^2.2.2",
+    "jquery": "^3.4.1",
     "jshashes": "^1.0.5",
     "sql.js": "^0.3.2"
   }
